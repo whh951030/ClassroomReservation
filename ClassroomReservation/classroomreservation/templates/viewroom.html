@@ -1,0 +1,83 @@
+{% extends "base.html" %}  
+{% load staticfiles %}  
+{% block title %}查看{% endblock %}  
+  
+{% block content %}  
+  
+<div class="container">  
+    <div class="row">  
+        <div class="col-md-10 col-md-offset-1">  
+            <div class="col-md-2">  
+                <div class="list-group">  
+                    <a href="/viewroom/" class="list-group-item" id="id_typ_all">全部会议室</a>  
+                    {% for acad in acad_list %}     <!--循环学院列表-->  
+                    <a href="/viewroom?acad={{ acad }}" class="list-group-item" id="id_typ_{{ acad }}">{{ acad }} </a>  
+                    {% endfor %}  
+                </div>  
+                <script type="text/javascript">  
+                    var act_typ = document.getElementById("id_typ_{{acad_list}}");  
+                    var new_class = act_typ.getAttribute("class") + " active"  
+                    act_typ.setAttribute("class",new_class);  
+                </script>  
+            </div>  
+            <div class="col-md-9 col-md-offset-1">  
+                <div class="col-md-4 col-md-offset-8">  
+                    <form role="form" method="post" name="search_form">  
+                        {% csrf_token %}  
+                        <input type="search" class="form-control" name="number" placeholder="Enter keywords to search" id="id_search_input" onkeyup="whenkeyup()" autofocus="True">  
+                    </form>  
+                </div>  
+                <script type="text/javascript">  
+                    function whenkeyup () {  
+                        var oldvalue = document.getElementById('id_search_input').value  
+                        setTimeout(function(){  
+                            var newvalue = document.getElementById('id_search_input').value  
+                            if (oldvalue == newvalue) {  
+                                document.search_form.submit();  
+                            };  
+                        },1500);  
+                    }  
+                </script>  
+                <table class="table table-hover">  
+                    <thead>  
+                        <tr>  
+                            <th>会议室号</th>  
+                            <th>会议室名</th>  
+                            <th>大小</th>  
+                            <th>详情</th>  
+                        </tr>  
+                    </thead>  
+                    <tbody>  
+                        {% for room in room_list %}  
+                        <tr>  
+                      
+                            <td>{{ room.num }}</td>  
+                            <td>{{ room.name }}</td>  
+                            <td>{{ room.size }}</td>  
+                            <td><a href="{% url 'classroomreservation:detail' %}">查看</a></td>
+                        </tr>  
+                      
+                  
+                        {% endfor %}  
+                    </tbody>  
+                </table>  
+                <nav>  
+                    <ul class="pager">  
+                        {% if room_list.has_previous %}  
+                            <li class="previous"><a href="?typ={{room_acad}}&page={{ room_list.previous_page_number }}">上一页</a></li>  
+                        {% else %}  
+                            <li class="previous disabled"><a href="#">上一页</a></li>  
+                        {% endif %}  
+                        第 {{ room_list.number }} / {{ room_list.paginator.num_pages }}页  
+                        {% if room_list.has_next %}  
+                            <li class="next"><a href="?acad={{room_acad}}&page={{ room_list.next_page_number }}">下一页</a></li>  
+                        {% else %}  
+                            <li class="next disabled"><a href="#">下一页</a></li>  
+                        {% endif %}  
+                    </ul>  
+                </nav>  
+            </div>  
+        </div>  
+    </div>  
+</div>
+{% endblock %} 

@@ -1,0 +1,48 @@
+{% extends "base.html" %}  
+{% load staticfiles %}  
+{% block title %}查看{% endblock %}  
+  
+{% block content %}  
+  
+<div class="container">  
+    <div class="row">  
+        <div class="col-md-10 col-md-offset-1">  
+            <div class="col-md-9 col-md-offset-1">  
+                {% if us_sta == "no" %}  
+                <table class="table table-hover">  
+                    <thead>  
+                        <tr>  
+                            <th>用户名</th>  
+                            <th>会议室代号</th>  
+                            <th>会议室名称</th>  
+                            <th>会议室时间</th>  
+                            <th>会议室大小</th>  
+                            <th>用户电话</th>  
+                            <!--<th>预约时间</th>-->  
+                            <th>备注</th>  
+                        </tr>  
+                    </thead>  
+                    <tbody>  
+                        {% for order in myorder %}  
+                        <tr>  
+                            <td>  {{ order.user }}  </td>  
+                            <td>  {{ order.num }}  </td>  
+                            <td>  {{ order.name }}  </td>  
+                            <td>  {{ order.time }}  </td>  
+                            <td>  {{ order.size }}  </td>  
+                            <td>  {{ order.phone }}  </td>  
+                            <!--<td>  {{ order.ntime }}  </td>-->  
+                            <td><a href="/cancel/?id={{order.id}}">取消定单</a></td>   
+                        </tr>  
+                        {% endfor %}  
+                    </tbody>  
+                </table>  
+                {% else %}  
+                <h2>你还没有预约，请先预约！</h2>  
+                {% endif %}  
+                  
+            </div>  
+        </div>  
+    </div>  
+</div>
+{% endblock %} 

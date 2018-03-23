@@ -1,0 +1,51 @@
+{% extends "base.html" %}  
+{% load staticfiles %}  
+{% block title %}查看会议室{% endblock %}  
+  
+{% block content %}  
+  
+<div class="container">  
+    <div class="row">  
+        <div class="col-md-10 col-md-offset-1">  
+            <div class="col-md-5">  
+                {% if img_list %}  
+                    <div id="carousel-generic" class="carousel slide" data-ride="carousel">  
+                        <ol class="carousel-indicators">  
+                        {% for item in img_list %}  
+                            <li data-target="#carousel-generic" data-slide-to="{{forloop.counter0}}" {% if forloop.first %}class="active"{% endif %}></li>  
+                        {% endfor %}  
+                        </ol>  
+                        <div class="carousel-inner" role="listbox">  
+                        {% for img in img_list %}  
+                            <div {% if forloop.first %}class="item active"{%else%}class="item"{% endif %}>  
+                                <img src="/static/{{img.img}}">  
+                            </div>  
+                        {% endfor %}  
+                        </div>  
+                        <a class="left carousel-control" href="#carousel-generic" role="button" data-slide="prev">  
+                            <span class="glyphicon glyphicon-chevron-left"></span>  
+                        </a>  
+                        <a class="right carousel-control" href="#carousel-generic" role="button" data-slide="next">  
+                            <span class="glyphicon glyphicon-chevron-right"></span>  
+                        </a>  
+                    </div>  
+                {% else %}  
+                    <p class="text-center">暂无图片</p>  
+                {% endif %}  
+            </div>  
+            <div class="col-md-6 col-md-offset-1">  
+                <h2 class="text-center">{{room.name}}会议室</h2>  
+                <br>  
+                <h3>会议室名  ：{{room.name}}</h3>  
+                <h3>会议室大小：可容纳{{room.size}}人</h3>  
+                <h3>可预约时间：{{ro.time}}</h3>  
+            {% if or_sta == "yes" %}  
+                <h3><a href="/order/">预约</a></h3>  
+            {% elif or_sta == "no" %}  
+                <h3>已被预约</h3>  
+            {% endif %}  
+            </div>  
+        </div>  
+    </div>  
+</div>
+{% endblock %}  
